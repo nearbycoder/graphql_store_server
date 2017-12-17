@@ -1,0 +1,17 @@
+
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+  host: localhost
+
+development:
+  <<: *default
+  database: graphql_store_development
+
+test:
+  <<: *default
+  database: graphql_store_test
+
+# production:
+#   url: <%= ENV['DATABASE_URL'] %>
