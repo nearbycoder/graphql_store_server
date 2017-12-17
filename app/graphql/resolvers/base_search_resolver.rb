@@ -10,7 +10,7 @@ class Resolvers::BaseSearchResolver
     value 'DESC'
   end
 
-  option :id, type: types.String, with: :apply_id_filter
+  option :id, type: types.ID, with: :apply_id_filter
   option :limit, type: types.Int, with: :apply_limit_filter
   option :offset, type: types.Int, with: :apply_offset_filter
   option :updated_at_after, type: Types::DateTimeType, with: :apply_updated_at_after_filter
