@@ -2,6 +2,7 @@ class Variant < ApplicationRecord
   acts_as_paranoid
 
   belongs_to :product
+  has_many :cart_items, dependent: :destroy
 
   has_attached_file :image, styles: {
     thumb: '100x100>',
