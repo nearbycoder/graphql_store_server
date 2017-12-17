@@ -1,6 +1,6 @@
 module Mutations::ProductMutation
   def self.create(object_type)
-    object_type.camelized_field :create_product, Types::ProductType do
+    object_type.field :create_product, Types::ProductType do
       authorize! :create, policy: Product
       description 'Create a product'
       argument :product, ProductCreateType
@@ -9,9 +9,10 @@ module Mutations::ProductMutation
       }
     end
 
-    object_type.camelized_field :update_product, Types::ProductType do
+    object_type.field :update_product, Types::ProductType do
       authorize! :update, policy: Product
       description 'Update a product'
+      argument :id, !types.ID
       argument :product, ProductUpdateType
       resolve ->(_product, args, _ctx) {
         product = Product.find(args[:id])
@@ -20,7 +21,7 @@ module Mutations::ProductMutation
       }
     end
 
-    object_type.camelized_field :delete_product, Types::ProductType do
+    object_type.field :delete_product, Types::ProductType do
       authorize! :delete, policy: Product
       argument :id, !types.ID
       description 'Delete a product'
@@ -50,7 +51,7 @@ ProductCreateType = GraphQL::InputObjectType.define do
     description 'The base64 encoded version of the profile image to upload.'
   end
 
-  argument :imageName, types.String, as: :image_file_name, default_value: 'image.jpg'
+  argument :imageName, types.String, as: :image_file_name
 end
 
 ProductUpdateType = GraphQL::InputObjectType.define do
@@ -62,7 +63,7 @@ ProductUpdateType = GraphQL::InputObjectType.define do
   end
 
   argument :description, types.String do
-    description 'Description for the.'
+    description 'Description for the product.'
   end
 
   argument :imageBase64, as: :image do
@@ -70,5 +71,5 @@ ProductUpdateType = GraphQL::InputObjectType.define do
     description 'The base64 encoded version of the profile image to upload.'
   end
 
-  argument :imageName, types.String, as: :image_file_name, default_value: 'image.jpg'
+  argument :imageName, types.String, as: :image_file_name
 end

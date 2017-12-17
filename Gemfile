@@ -42,6 +42,7 @@ gem 'rack-cors'
 # GraphQL support
 gem 'graphql'
 gem 'graphql-preload'
+gem 'graphql-errors'
 
 # Better OpenStruct impl
 gem 'recursive-open-struct'

@@ -1,6 +1,6 @@
 module Mutations::AuthMutation
   def self.create(object_type)
-    object_type.camelized_field :register_user, Types::AuthType do
+    object_type.field :register_user, Types::AuthType do
       description 'Update a current user'
       argument :user, !UserCreateType
       resolve ->(_o, args, _ctx) {
@@ -34,7 +34,7 @@ UserCreateType = GraphQL::InputObjectType.define do
     description 'Password of the user.'
   end
 
-  argument :password_confirmation, !types.String do
+  argument :passwordConfirmation, !types.String, as: :password_confirmation do
     description 'Confirm password of the user.'
   end
 end

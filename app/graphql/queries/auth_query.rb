@@ -1,6 +1,6 @@
 module Queries::AuthQuery
   def self.create(object_type)
-    object_type.camelized_field :sign_in_user do
+    object_type.field :sign_in_user do
       type Types::AuthType
       argument :email, !types.String
       argument :password, !types.String
@@ -17,7 +17,7 @@ module Queries::AuthQuery
       end
     end
 
-    object_type.camelized_field :sign_out_user do
+    object_type.field :sign_out_user do
       type Types::SignOutType
       argument :token, !types.String
       argument :client, !types.String
@@ -36,7 +36,7 @@ module Queries::AuthQuery
       end
     end
 
-    object_type.camelized_field :valid_token do
+    object_type.field :valid_token do
       type Types::UserType
       argument :token, !types.String
       argument :client, !types.String

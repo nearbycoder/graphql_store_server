@@ -1,20 +1,21 @@
-Types::ProductType = GraphQL::ObjectType.define do
-  name 'Product'
+Types::VariantType = GraphQL::ObjectType.define do
+  name 'Variant'
   field :id, types.ID
   field :name, types.String
+  field :price, types.Int
   field :description, types.String
-  field :image_url, types.String do
-    resolve ->(product, _args, _ctx) {
-      product.image.url == '' ? nil : product.image.url
+  field :imageUrl, types.String do
+    resolve ->(variant, _args, _ctx) {
+      variant.image.url == '' ? nil : variant.image.url
     }
   end
-  field :image_name, types.String do
-    resolve ->(product, _args, _ctx) {
-      product.image_file_name
+  field :imageName, types.String do
+    resolve ->(variant, _args, _ctx) {
+      variant.image_file_name
     }
   end
-  field :variants, types[Types::VariantType] do
-    preload :variants
+  field :product, Types::ProductType do
+    preload :product
   end
   field :created_at, Types::DateTimeType
   field :updated_at, Types::DateTimeType

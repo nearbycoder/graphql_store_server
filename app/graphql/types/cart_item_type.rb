@@ -1,8 +1,14 @@
-Types::UserType = GraphQL::ObjectType.define do
-  name 'User'
+Types::CartItemType = GraphQL::ObjectType.define do
+  name 'CartItem'
   field :id, types.ID
-  field :name, types.String
-  field :email, types.String
+  field :quantity, types.String
+  field :price, types.Int
+  field :variant, Types::VariantType do
+    preload :variant
+  end
+  field :cart, Types::CartType do
+    preload :cart
+  end
   field :created_at, Types::DateTimeType
   field :updated_at, Types::DateTimeType
   field :deleted_at, Types::DateTimeType

@@ -84,6 +84,8 @@ GEM
     graphql-batch (0.3.8)
       graphql (>= 0.8, < 2)
       promise.rb (~> 0.7.2)
+    graphql-errors (0.1.0)
+      graphql (>= 1.6.0, < 2)
     graphql-preload (1.0.4)
       activerecord (>= 3.2, < 6)
       graphql (>= 1.5, < 2)
@@ -221,6 +223,7 @@ DEPENDENCIES
   dotenv-rails
   faker (~> 1.7)
   graphql
+  graphql-errors
   graphql-preload
   graphql-pundit
   listen (>= 3.0.5, < 3.2)

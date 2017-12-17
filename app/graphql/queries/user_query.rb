@@ -1,6 +1,6 @@
 module Queries::UserQuery
   def self.create(object_type)
-    object_type.camelized_field :current_user do
+    object_type.field :current_user do
       type Types::UserType
       description 'get current_user'
       resolve ->(_obj, _args, ctx) do

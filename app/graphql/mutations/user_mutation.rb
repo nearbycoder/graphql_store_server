@@ -1,6 +1,6 @@
 module Mutations::UserMutation
   def self.create(object_type)
-    object_type.camelized_field :update_current_user, Types::UserType do
+    object_type.field :update_current_user, Types::UserType do
       authorize! :update, policy: CurrentUser
       description 'Update a current user'
       argument :user, !UserUpdateType
@@ -11,7 +11,7 @@ module Mutations::UserMutation
       }
     end
 
-    object_type.camelized_field :delete_current_user, Types::UserType do
+    object_type.field :delete_current_user, Types::UserType do
       authorize! :update, policy: CurrentUser
       description 'Delete the current user'
       resolve ->(_o, _args, ctx) {
