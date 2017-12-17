@@ -17,6 +17,8 @@ gem 'bootsnap', require: false
 
 # Auth
 gem 'devise_token_auth'
+gem 'omniauth'
+gem 'pundit'
 
 # Soft Delete
 gem 'paranoia', '~> 2.2'
