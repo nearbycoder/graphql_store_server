@@ -1,0 +1,2 @@
+class CurrentUser < User
+end

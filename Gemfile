@@ -15,11 +15,20 @@ gem 'puma', '~> 3.7'
 # Faster load time
 gem 'bootsnap', require: false
 
+# Asset Upload
+gem 'paperclip'
+gem 'aws-sdk', '~> 2.3'
+
 # Auth
 gem 'devise_token_auth'
 gem 'omniauth'
 gem 'graphql-pundit'
 gem 'pundit'
+gem 'rolify'
+
+# Search Graphql
+gem 'search_object', '1.2.0'
+gem 'search_object_graphql', '0.1'
 
 # Soft Delete
 gem 'paranoia', '~> 2.2'
@@ -39,6 +48,12 @@ gem 'recursive-open-struct'
 
 # Fake Data for Sample Data
 gem 'faker', '~> 1.7'
+
+# Pry (available in all envs)
+gem 'pry-byebug'
+gem 'pry-rails'
+gem 'pry-stack_explorer'
+gem 'pry-theme'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
