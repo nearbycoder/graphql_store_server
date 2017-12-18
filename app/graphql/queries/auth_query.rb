@@ -38,17 +38,14 @@ module Queries::AuthQuery
 
     object_type.field :valid_token do
       type Types::UserType
-      argument :token, !types.String
-      argument :client, !types.String
-      argument :uid, !types.String
       description 'Validate User'
-      resolve ->(_obj, args, _ctx) do
-        user = User.find_by(email: args[:uid])
+      resolve ->(_obj, args, ctx) do
+        user = ctx[:current_user]
 
-        if user && user.valid_token?(args[:token], args[:client])
+        if user
           user
         else
-          GraphQL::ExecutionError.new('Unauthorized')
+          nil
         end
       end
     end
