@@ -2,7 +2,6 @@ Types::CartItemType = GraphQL::ObjectType.define do
   name 'CartItem'
   field :id, types.ID
   field :quantity, types.String
-  field :price, types.Int
   field :variant, Types::VariantType do
     preload :variant
   end

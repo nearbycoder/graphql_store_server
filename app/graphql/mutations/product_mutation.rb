@@ -1,34 +1,27 @@
 module Mutations::ProductMutation
   def self.create(object_type)
     object_type.field :create_product, Types::ProductType do
-      authorize! :create, policy: Product
       description 'Create a product'
       argument :product, ProductCreateType
-      resolve ->(_product, args, _ctx) {
-        Product.create(args[:product].to_h)
+      resolve ->(_product, args, ctx) {
+        ModelServices::ProductService.new(args, ctx).create
       }
     end
 
     object_type.field :update_product, Types::ProductType do
-      authorize! :update, policy: Product
       description 'Update a product'
       argument :id, !types.ID
       argument :product, ProductUpdateType
-      resolve ->(_product, args, _ctx) {
-        product = Product.find(args[:id])
-        product.update(args[:product].to_h)
-        product
+      resolve ->(_product, args, ctx) {
+        ModelServices::ProductService.new(args, ctx).update
       }
     end
 
     object_type.field :delete_product, Types::ProductType do
-      authorize! :delete, policy: Product
       argument :id, !types.ID
       description 'Delete a product'
-      resolve ->(_product, _args, _ctx) {
-        product = Product.find(args[:id])
-        product.destroy
-        product
+      resolve ->(_product, args, ctx) {
+        ModelServices::ProductService.new(args, ctx).destroy
       }
     end
   end

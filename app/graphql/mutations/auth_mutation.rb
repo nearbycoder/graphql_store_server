@@ -3,16 +3,23 @@ module Mutations::AuthMutation
     object_type.field :register_user, Types::AuthType do
       description 'Update a current user'
       argument :user, UserCreateType
-      resolve ->(_o, args, _ctx) {
-        user = User.create(args[:user].to_h)
-        if user.persisted?
-          user.add_role :member
-          auth = user.create_new_auth_token
-          auth['user'] = user
-          auth
-        else
-          user
-        end
+      resolve ->(_o, args, ctx) {
+        ModelServices::AuthService.new(args, ctx).create
+      }
+    end
+
+    object_type.field :update_current_user, Types::UserType do
+      description 'Update a current user'
+      argument :user, !UserUpdateType
+      resolve ->(_o, args, ctx) {
+        ModelServices::AuthService.new(args, ctx).update
+      }
+    end
+
+    object_type.field :delete_current_user, Types::UserType do
+      description 'Delete the current user'
+      resolve ->(_o, args, ctx) {
+        ModelServices::AuthService.new(args, ctx).destroy
       }
     end
   end
@@ -36,5 +43,22 @@ UserCreateType = GraphQL::InputObjectType.define do
 
   argument :passwordConfirmation, !types.String, as: :password_confirmation do
     description 'Confirm password of the user.'
+  end
+end
+
+UserUpdateType = GraphQL::InputObjectType.define do
+  name 'UserUpdateType'
+  description 'Properties for creating and updating a User'
+
+  argument :name, types.String do
+    description 'Name of the user.'
+  end
+
+  argument :email, types.String do
+    description 'Email of the user.'
+  end
+
+  argument :password, types.String do
+    description 'Password of the user.'
   end
 end

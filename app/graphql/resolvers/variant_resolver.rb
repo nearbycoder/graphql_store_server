@@ -3,8 +3,6 @@ class Resolvers::VariantResolver < Resolvers::BaseSearchResolver
 
   type types[Types::VariantType]
 
-  scope { Variant.all }
-
   OrderEnum = GraphQL::EnumType.define do
     name 'VariantOrder'
 
@@ -13,6 +11,8 @@ class Resolvers::VariantResolver < Resolvers::BaseSearchResolver
     value 'CREATED_AT'
     value 'UPDATED_AT'
   end
+
+  scope { context[:pundit].policy_scope(Variant) }
 
   option :name, type: types.String, with: :apply_name_filter
   option :description, type: types.String, with: :apply_description_filter

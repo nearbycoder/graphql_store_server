@@ -11,7 +11,7 @@ class Resolvers::CartItemResolver < Resolvers::BaseSearchResolver
     value 'UPDATED_AT'
   end
 
-  scope { CartItem.all }
+  scope { context[:pundit].policy_scope(CartItem) }
 
   option :name, type: types.String, with: :apply_name_filter
   option :cart_id, type: types.String, with: :apply_cart_id_filter

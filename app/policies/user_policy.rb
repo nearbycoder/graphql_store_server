@@ -1,13 +1,26 @@
 class UserPolicy < ApplicationPolicy
-  def index?
-    user.present? && user.admin?
+  class Scope
+    attr_reader :user, :scope
+
+    def initialize(user, scope)
+      @user  = user
+      @scope = scope
+    end
+
+    def resolve
+      if user.admin?
+        scope.all
+      else
+        scope.where(id: user.id)
+      end
+    end
   end
 
   def show?
-    user.present? && user.admin?
+    user.present? && user == record || user.present? && user.admin?
   end
 
   def update?
-    user.present? && user == record
+    user.present? && user == record || user.present? && user.admin?
   end
 end

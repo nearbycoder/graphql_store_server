@@ -1,34 +1,27 @@
 module Mutations::VariantMutation
   def self.create(object_type)
     object_type.field :create_Variant, Types::VariantType do
-      authorize! :create, policy: Variant
       description 'Create a Variant'
       argument :variant, VariantCreateType
-      resolve ->(_variant, args, _ctx) {
-        Variant.create(args[:variant].to_h)
+      resolve ->(_variant, args, ctx) {
+        ModelServices::VariantService.new(args, ctx).create
       }
     end
 
     object_type.field :update_Variant, Types::VariantType do
-      authorize! :update, policy: Variant
       argument :id, !types.ID
       description 'Update a Variant'
       argument :variant, VariantUpdateType
-      resolve ->(_variant, args, _ctx) {
-        variant = Variant.find(args[:id])
-        variant.update(args[:variant].to_h)
-        variant
+      resolve ->(_variant, args, ctx) {
+        ModelServices::VariantService.new(args, ctx).update
       }
     end
 
     object_type.field :delete_Variant, Types::VariantType do
-      authorize! :delete, policy: Variant
       argument :id, !types.ID
       description 'Delete a Variant'
-      resolve ->(_variant, _args, _ctx) {
-        variant = Variant.find(args[:id])
-        variant.destroy
-        variant
+      resolve ->(_variant, args, ctx) {
+        ModelServices::VariantService.new(args, ctx).destroy
       }
     end
   end

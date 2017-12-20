@@ -12,7 +12,7 @@ class Resolvers::UserResolver < Resolvers::BaseSearchResolver
     value 'UPDATED_AT'
   end
 
-  scope { User.all }
+  scope { context[:pundit].policy_scope(User) }
 
   option :name, type: types.String, with: :apply_name_filter
   option :email, type: types.String, with: :apply_email_filter

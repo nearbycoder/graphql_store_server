@@ -12,7 +12,7 @@ class Resolvers::ProductResolver < Resolvers::BaseSearchResolver
     value 'UPDATED_AT'
   end
 
-  scope { Product.all }
+  scope { context[:pundit].policy_scope(Product) }
 
   option :name, type: types.String, with: :apply_name_filter
   option :description, type: types.String, with: :apply_description_filter

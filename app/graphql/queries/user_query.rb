@@ -5,21 +5,22 @@ module Queries::UserQuery
       description 'get current_user'
       resolve ->(_obj, _args, ctx) do
         @current_user = ctx[:current_user]
-        return GraphQL::ExecutionError.new('Unauthorized') unless @current_user
+        return GraphQL::ExecutionError.new('Not Authorized') unless @current_user
         @current_user
       end
     end
 
     object_type.field :user do
-      authorize! :show, policy: User
       type Types::UserType
       argument :id, !types.ID
       description 'Find a User by ID'
-      resolve ->(_obj, args, _ctx) { User.find(args['id']) }
+      resolve ->(_obj, args, ctx) {
+        user = User.find(args['id'])
+        ctx[:pundit].authorize user, :show?
+        user
+      }
     end
 
-    object_type.field :users, function: Resolvers::UserResolver do
-      authorize! :index, policy: User
-    end
+    object_type.field :users, function: Resolvers::UserResolver
   end
 end

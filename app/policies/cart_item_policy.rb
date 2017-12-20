@@ -1,6 +1,19 @@
 class CartItemPolicy < ApplicationPolicy
-  def index?
-    owner_or_admin?
+  class Scope
+    attr_reader :user, :scope
+
+    def initialize(user, scope)
+      @user  = user
+      @scope = scope
+    end
+
+    def resolve
+      if user.admin?
+        scope.all
+      else
+        scope.includes(:cart).where('carts.user': user)
+      end
+    end
   end
 
   def show?
@@ -8,7 +21,7 @@ class CartItemPolicy < ApplicationPolicy
   end
 
   def create?
-    record.user == user || user.admin?
+    owner_or_admin?
   end
 
   def update?

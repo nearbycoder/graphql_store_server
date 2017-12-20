@@ -1,25 +1,19 @@
 module Mutations::CartMutation
   def self.create(object_type)
     object_type.field :update_cart, Types::CartType do
-      authorize! ->(_cart, args, ctx) { CartPolicy.new(ctx[:current_user], Cart.find(args[:id])).update? }
       argument :id, !types.ID
-      description 'Update a Cart'
+      description 'Update a cart'
       argument :cart, CartUpdateType
-      resolve ->(_cart, args, _ctx) {
-        cart = Cart.find(args[:id])
-        cart.update(args[:Cart].to_h)
-        cart
+      resolve ->(_cart, args, ctx) {
+        ModelServices::CartService.new(args, ctx).update
       }
     end
 
     object_type.field :delete_cart, Types::CartType do
-      authorize! ->(_cart, args, ctx) { CartPolicy.new(ctx[:current_user], Cart.find(args[:id])).delete? }
       argument :id, !types.ID
-      description 'Delete a Cart'
-      resolve ->(_cart, args, _ctx) {
-        cart = Cart.find(args[:id])
-        cart.destroy
-        cart
+      description 'Delete a cart'
+      resolve ->(_cart, args, ctx) {
+        ModelServices::CartService.new(args, ctx).destroy
       }
     end
   end
