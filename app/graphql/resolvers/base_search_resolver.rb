@@ -11,8 +11,8 @@ class Resolvers::BaseSearchResolver
   end
 
   option :id, type: types.ID, with: :apply_id_filter
-  option :limit, type: types.Int, with: :apply_limit_filter
-  option :offset, type: types.Int, with: :apply_offset_filter
+  option :limit, type: types.ID, with: :apply_limit_filter
+  option :offset, type: types.ID, with: :apply_offset_filter
   option :updated_at_after, type: Types::DateTimeType, with: :apply_updated_at_after_filter
   option :created_at_after, type: Types::DateTimeType, with: :apply_created_at_after_filter
   option :deleted_at_after, type: Types::DateTimeType, with: :apply_deleted_at_after_filter
@@ -63,7 +63,7 @@ class Resolvers::BaseSearchResolver
 
   def apply_order_direction_with_asc(scope); end
 
-  def apply_order_direction_with_dec(scope); end
+  def apply_order_direction_with_desc(scope); end
 
   def apply_order_by_with_created_at(scope)
     scope.order "created_at #{order_direction}"

@@ -2,7 +2,7 @@ module Mutations::ProductMutation
   def self.create(object_type)
     object_type.field :create_product, Types::ProductType do
       description 'Create a product'
-      argument :product, ProductCreateType
+      argument :product, !ProductCreateType
       resolve ->(_product, args, ctx) {
         ModelServices::ProductService.new(args, ctx).create
       }
@@ -11,7 +11,7 @@ module Mutations::ProductMutation
     object_type.field :update_product, Types::ProductType do
       description 'Update a product'
       argument :id, !types.ID
-      argument :product, ProductUpdateType
+      argument :product, !ProductUpdateType
       resolve ->(_product, args, ctx) {
         ModelServices::ProductService.new(args, ctx).update
       }
