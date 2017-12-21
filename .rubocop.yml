@@ -1,0 +1,35 @@
+AllCops:
+  Exclude:
+    - 'lib/sample_data/*.rb'
+    - 'db/schema.rb'
+    - 'db/seeds.rb'
+    - 'db/migrate/**'
+    - 'config/**/*.rb'
+    - 'bin/**'
+Style/RegexpLiteral:
+  EnforcedStyle: mixed
+  AllowInnerSlashes: true
+Metrics/BlockLength:
+  Exclude:
+    - "app/graphql/types/*.rb"
+Metrics/CyclomaticComplexity:
+  Exclude:
+    - "app/graphql/queries/*.rb"
+Metrics/PerceivedComplexity:
+  Exclude:
+    - "app/graphql/queries/*.rb"
+Style/Lambda:
+  EnforcedStyle: literal
+Style/ClassAndModuleChildren:
+  EnforcedStyle: compact
+Metrics/AbcSize:
+  Exclude:
+    - 'app/graphql/**/*.rb'
+Metrics/MethodLength:
+  Max: 15
+  Exclude:
+    - 'app/graphql/**/*.rb'
+Documentation:
+  Enabled: false
+Metrics/LineLength:
+  Max: 100

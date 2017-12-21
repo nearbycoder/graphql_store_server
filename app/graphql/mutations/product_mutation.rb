@@ -3,7 +3,7 @@ module Mutations::ProductMutation
     object_type.field :create_product, Types::ProductType do
       description 'Create a product'
       argument :product, !ProductCreateType
-      resolve ->(_product, args, ctx) {
+      resolve ->(_root, args, ctx) {
         ModelServices::ProductService.new(args, ctx).create
       }
     end
@@ -12,7 +12,7 @@ module Mutations::ProductMutation
       description 'Update a product'
       argument :id, !types.ID
       argument :product, !ProductUpdateType
-      resolve ->(_product, args, ctx) {
+      resolve ->(_root, args, ctx) {
         ModelServices::ProductService.new(args, ctx).update
       }
     end
@@ -20,7 +20,7 @@ module Mutations::ProductMutation
     object_type.field :delete_product, Types::ProductType do
       argument :id, !types.ID
       description 'Delete a product'
-      resolve ->(_product, args, ctx) {
+      resolve ->(_root, args, ctx) {
         ModelServices::ProductService.new(args, ctx).destroy
       }
     end

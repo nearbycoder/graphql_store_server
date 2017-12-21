@@ -4,9 +4,11 @@ module Queries::CartQuery
       type Types::CartType
       description 'Find the users Current Cart'
       resolve ->(_obj, _args, ctx) {
-        cart = ctx[:current_user].cart
-        ctx[:pundit].authorize cart, :show?
-        cart
+        if ctx[:current_user]
+          ctx[:current_user].default_cart
+        else
+          raise Pundit::NotAuthorizedError
+        end
       }
     end
 

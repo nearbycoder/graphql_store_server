@@ -16,13 +16,13 @@ gem 'puma', '~> 3.7'
 gem 'bootsnap', require: false
 
 # Asset Upload
-gem 'paperclip'
 gem 'aws-sdk', '~> 2.3'
+gem 'paperclip'
 
 # Auth
 gem 'devise_token_auth'
-gem 'omniauth'
 gem 'graphql-pundit'
+gem 'omniauth'
 gem 'pundit'
 gem 'rolify'
 
@@ -41,8 +41,8 @@ gem 'rack-cors'
 
 # GraphQL support
 gem 'graphql'
-gem 'graphql-preload'
 gem 'graphql-errors'
+gem 'graphql-preload'
 
 # Better OpenStruct impl
 gem 'recursive-open-struct'

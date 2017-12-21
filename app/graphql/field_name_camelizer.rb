@@ -1,6 +1,9 @@
 class FieldNameCamelizer
   def instrument(_type, field)
-    field.property = field.name.underscore.to_sym if field.resolve_proc.is_a?(GraphQL::Field::Resolve::NameResolve)
+    if field.resolve_proc.is_a?(GraphQL::Field::Resolve::NameResolve)
+      field.property = field.name.underscore.to_sym
+    end
+
     field.name = field.name.camelize(:lower)
 
     field.arguments = Hash[

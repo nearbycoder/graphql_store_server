@@ -9,6 +9,9 @@ Types::UserType = GraphQL::ObjectType.define do
   field :is_admin, types.Boolean do
     resolve ->(obj, _args, _ctx) { obj.admin? }
   end
+  field :carts, types[Types::CartType], function: Resolvers::CartResolver do
+    preload :carts
+  end
 
   field :errors, types[types.String], "Reasons the object couldn't be created or updated" do
     resolve ->(obj, _args, _ctx) { obj.errors.full_messages }

@@ -4,7 +4,7 @@ module Mutations::CartMutation
       argument :id, !types.ID
       description 'Update a cart'
       argument :cart, CartUpdateType
-      resolve ->(_cart, args, ctx) {
+      resolve ->(_root, args, ctx) {
         ModelServices::CartService.new(args, ctx).update
       }
     end
@@ -12,7 +12,7 @@ module Mutations::CartMutation
     object_type.field :delete_cart, Types::CartType do
       argument :id, !types.ID
       description 'Delete a cart'
-      resolve ->(_cart, args, ctx) {
+      resolve ->(_root, args, ctx) {
         ModelServices::CartService.new(args, ctx).destroy
       }
     end

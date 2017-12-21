@@ -6,17 +6,21 @@ class Resolvers::UserResolver < Resolvers::BaseSearchResolver
   OrderEnum = GraphQL::EnumType.define do
     name 'UserOrder'
 
+    value 'ID'
     value 'NAME'
     value 'EMAIL'
     value 'CREATED_AT'
     value 'UPDATED_AT'
   end
 
-  scope { context[:pundit].policy_scope(User) }
+  scope do
+    context[:model_name] = 'users'
+    get_scope(User)
+  end
 
   option :name, type: types.String, with: :apply_name_filter
   option :email, type: types.String, with: :apply_email_filter
-  option :order_by, type: OrderEnum, default: 'NAME'
+  option :order_by, type: OrderEnum
 
   def apply_name_filter(scope, value)
     scope.where 'name LIKE ?', escape_search_term(value)

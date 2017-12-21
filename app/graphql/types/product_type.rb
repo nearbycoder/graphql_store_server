@@ -13,7 +13,7 @@ Types::ProductType = GraphQL::ObjectType.define do
       product.image_file_name
     }
   end
-  field :variants, types[Types::VariantType] do
+  field :variants, types[Types::VariantType], function: Resolvers::VariantResolver do
     preload :variants
   end
   field :created_at, Types::DateTimeType

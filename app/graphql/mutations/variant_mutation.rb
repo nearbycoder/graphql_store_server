@@ -3,7 +3,7 @@ module Mutations::VariantMutation
     object_type.field :create_Variant, Types::VariantType do
       description 'Create a Variant'
       argument :variant, VariantCreateType
-      resolve ->(_variant, args, ctx) {
+      resolve ->(_root, args, ctx) {
         ModelServices::VariantService.new(args, ctx).create
       }
     end
@@ -12,7 +12,7 @@ module Mutations::VariantMutation
       argument :id, !types.ID
       description 'Update a Variant'
       argument :variant, VariantUpdateType
-      resolve ->(_variant, args, ctx) {
+      resolve ->(_root, args, ctx) {
         ModelServices::VariantService.new(args, ctx).update
       }
     end
@@ -20,7 +20,7 @@ module Mutations::VariantMutation
     object_type.field :delete_Variant, Types::VariantType do
       argument :id, !types.ID
       description 'Delete a Variant'
-      resolve ->(_variant, args, ctx) {
+      resolve ->(_root, args, ctx) {
         ModelServices::VariantService.new(args, ctx).destroy
       }
     end

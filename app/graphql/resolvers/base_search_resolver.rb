@@ -38,27 +38,27 @@ class Resolvers::BaseSearchResolver
   end
 
   def apply_created_at_after_filter(scope, value)
-    scope.where 'created_at >= ?', value
+    scope.where "#{context[:model_name]}.created_at >= ?", value
   end
 
   def apply_updated_at_after_filter(scope, value)
-    scope.where 'updated_at >= ?', value
+    scope.where "#{context[:model_name]}.updated_at >= ?", value
   end
 
   def apply_deleted_at_after_filter(scope, value)
-    scope.where 'deleted_at >= ?', value
+    scope.where "#{context[:model_name]}.deleted_at >= ?", value
   end
 
   def apply_created_at_before_filter(scope, value)
-    scope.where 'created_at <= ?', value
+    scope.where "#{context[:model_name]}.created_at <= ?", value
   end
 
   def apply_updated_at_before_filter(scope, value)
-    scope.where 'updated_at <= ?', value
+    scope.where "#{context[:model_name]}.updated_at <= ?", value
   end
 
   def apply_deleted_at_before_filter(scope, value)
-    scope.where 'deleted_at <= ?', value
+    scope.where "#{context[:model_name]}.deleted_at <= ?", value
   end
 
   def apply_order_direction_with_asc(scope); end
@@ -66,10 +66,22 @@ class Resolvers::BaseSearchResolver
   def apply_order_direction_with_desc(scope); end
 
   def apply_order_by_with_created_at(scope)
-    scope.order "created_at #{order_direction}"
+    scope.order "#{context[:model_name]}.created_at #{order_direction}"
   end
 
   def apply_order_by_with_updated_at(scope)
-    scope.order "updated_at #{order_direction}"
+    scope.order "#{context[:model_name]}.updated_at #{order_direction}"
+  end
+
+  def apply_order_by_with_id(scope)
+    scope.order "#{context[:model_name]}.id #{order_direction}"
+  end
+
+  def get_scope(klass)
+    if !object
+      context[:pundit].policy_scope(klass)
+    else
+      object.public_send(klass.name.underscore.pluralize.downcase)
+    end
   end
 end

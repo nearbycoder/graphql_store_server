@@ -6,31 +6,35 @@ class Resolvers::ProductResolver < Resolvers::BaseSearchResolver
   OrderEnum = GraphQL::EnumType.define do
     name 'ProductOrder'
 
+    value 'ID'
     value 'NAME'
     value 'DESCRIPTION'
     value 'CREATED_AT'
     value 'UPDATED_AT'
   end
 
-  scope { context[:pundit].policy_scope(Product) }
+  scope do
+    context[:model_name] = 'products'
+    get_scope(Product)
+  end
 
   option :name, type: types.String, with: :apply_name_filter
   option :description, type: types.String, with: :apply_description_filter
-  option :order_by, type: OrderEnum, default: 'NAME'
+  option :order_by, type: OrderEnum
 
   def apply_name_filter(scope, value)
-    scope.where 'name ILIKE ?', escape_search_term(value)
+    scope.where 'products.name ILIKE ?', escape_search_term(value)
   end
 
   def apply_description_filter(scope, value)
-    scope.where 'description ILIKE ?', escape_search_term(value)
+    scope.where 'products.description ILIKE ?', escape_search_term(value)
   end
 
   def apply_order_by_with_name(scope)
-    scope.order "name #{order_direction}"
+    scope.order "products.name #{order_direction}"
   end
 
   def apply_order_by_with_description(scope)
-    scope.order "description #{order_direction}"
+    scope.order "products.description #{order_direction}"
   end
 end

@@ -3,7 +3,7 @@ module Mutations::AuthMutation
     object_type.field :register_user, Types::AuthType do
       description 'Update a current user'
       argument :user, UserCreateType
-      resolve ->(_o, args, ctx) {
+      resolve ->(_root, args, ctx) {
         ModelServices::AuthService.new(args, ctx).create
       }
     end
@@ -11,14 +11,14 @@ module Mutations::AuthMutation
     object_type.field :update_current_user, Types::UserType do
       description 'Update a current user'
       argument :user, !UserUpdateType
-      resolve ->(_o, args, ctx) {
+      resolve ->(_root, args, ctx) {
         ModelServices::AuthService.new(args, ctx).update
       }
     end
 
     object_type.field :delete_current_user, Types::UserType do
       description 'Delete the current user'
-      resolve ->(_o, args, ctx) {
+      resolve ->(_root, args, ctx) {
         ModelServices::AuthService.new(args, ctx).destroy
       }
     end

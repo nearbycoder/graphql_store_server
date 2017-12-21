@@ -11,7 +11,7 @@ class CartItemPolicy < ApplicationPolicy
       if user.admin?
         scope.all
       else
-        scope.includes(:cart).where('carts.user': user)
+        scope.joins(:cart).merge(Cart.where(user: user))
       end
     end
   end

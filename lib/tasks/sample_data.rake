@@ -8,6 +8,6 @@ namespace :db do
     require 'sample_data/sample_data'
 
     puts 'Creating Products.'
-    products = SampleData::ProductHelper.create_products
+    SampleData::ProductHelper.create_products
   end
 end

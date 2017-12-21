@@ -3,7 +3,7 @@ module Mutations::CartItemMutation
     object_type.field :create_cart_item, Types::CartItemType do
       description 'Create a cart item'
       argument :cart_item, CartItemCreateType
-      resolve ->(_cart_item, args, ctx) {
+      resolve ->(_root, args, ctx) {
         ModelServices::CartItemService.new(args, ctx).create
       }
     end
@@ -12,7 +12,7 @@ module Mutations::CartItemMutation
       argument :id, !types.ID
       description 'Update a cart item'
       argument :cart_item, CartItemUpdateType
-      resolve ->(_cart_item, args, ctx) {
+      resolve ->(_root, args, ctx) {
         ModelServices::CartItemService.new(args, ctx).update
       }
     end
@@ -20,7 +20,7 @@ module Mutations::CartItemMutation
     object_type.field :delete_cart_item, Types::CartItemType do
       argument :id, !types.ID
       description 'Delete a cart item'
-      resolve ->(_cart_item, args, ctx) {
+      resolve ->(_root, args, ctx) {
         ModelServices::CartItemService.new(args, ctx).destroy
       }
     end

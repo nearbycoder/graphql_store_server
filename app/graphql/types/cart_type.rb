@@ -7,7 +7,7 @@ Types::CartType = GraphQL::ObjectType.define do
   field :user, Types::UserType do
     preload :user
   end
-  field :cart_items, types[Types::CartItemType] do
+  field :cart_items, types[Types::CartItemType], function: Resolvers::CartItemResolver do
     preload :cart_items
   end
   field :created_at, Types::DateTimeType

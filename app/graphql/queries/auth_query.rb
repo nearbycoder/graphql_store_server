@@ -12,7 +12,7 @@ module Queries::AuthQuery
           auth['user'] = user
           auth
         else
-          GraphQL::ExecutionError.new('Unauthorized')
+          raise Pundit::NotAuthorizedError
         end
       end
     end
@@ -25,7 +25,6 @@ module Queries::AuthQuery
       description 'Sign out User'
       resolve ->(_obj, args, _ctx) do
         user = User.find_by(email: args[:uid])
-
         if user && args[:client] && user.tokens[args[:client]]
           user.tokens.delete(args[:client])
           user.save!
@@ -39,14 +38,10 @@ module Queries::AuthQuery
     object_type.field :valid_token do
       type Types::UserType
       description 'Validate User'
-      resolve ->(_obj, args, ctx) do
+      resolve ->(_obj, _args, ctx) do
         user = ctx[:current_user]
 
-        if user
-          user
-        else
-          nil
-        end
+        user if user
       end
     end
   end

@@ -1,5 +1,6 @@
 class ProductsController < ApplicationController
   def index
+    # rubocop:disable LineLength
     query_string = "
       query products($id: ID, $limit: ID, $offset: ID, $name: String, $description: String, $orderDirection: OrderDirection, $orderBy: ProductOrder) {
         products(id: $id, limit: $limit, offset: $offset, name: $name, description: $description, orderDirection: $orderDirection, orderBy: $orderBy) {
@@ -7,6 +8,7 @@ class ProductsController < ApplicationController
           #{params[:variants] ? product_variants_query : nil}
         }
     }"
+    # rubocop:enable LineLength
     render json: perform_query(query_string, params)
   end
 
