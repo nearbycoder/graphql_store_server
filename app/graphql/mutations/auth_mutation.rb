@@ -8,6 +8,22 @@ module Mutations::AuthMutation
       }
     end
 
+    object_type.field :forgot_password, Types::ForgotPasswordType do
+      description 'Send Password Reset Email'
+      argument :user, !UserForgotPasswordType
+      resolve ->(_root, args, ctx) {
+        ModelServices::AuthService.new(args, ctx).forgot_password
+      }
+    end
+
+    object_type.field :reset_password, Types::AuthType do
+      description 'Reset Password and Signin'
+      argument :user, !UserResetPasswordType
+      resolve ->(_root, args, ctx) {
+        ModelServices::AuthService.new(args, ctx).reset_password
+      }
+    end
+
     object_type.field :sign_in_user do
       type Types::AuthType
       argument :user, !UserSignInType
@@ -58,6 +74,15 @@ module Mutations::AuthMutation
   end
 end
 
+UserForgotPasswordType = GraphQL::InputObjectType.define do
+  name 'UserForgotPasswordType'
+  description 'Properties for signing in a user'
+
+  argument :email, !types.String do
+    description 'Email of the user.'
+  end
+end
+
 UserSignInType = GraphQL::InputObjectType.define do
   name 'UserSignInType'
   description 'Properties for signing in a user'
@@ -68,6 +93,19 @@ UserSignInType = GraphQL::InputObjectType.define do
 
   argument :password, !types.String do
     description 'Password of the user.'
+  end
+end
+
+UserResetPasswordType = GraphQL::InputObjectType.define do
+  name 'UserResetPasswordType'
+  description 'Properties for resetting a users password'
+
+  argument :password, !types.String do
+    description 'Password of the user.'
+  end
+
+  argument :passwordConfirmation, !types.String, as: :password_confirmation do
+    description 'Confirm password of the user.'
   end
 end
 

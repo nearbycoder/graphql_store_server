@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
-  mount_devise_token_auth_for 'User', at: 'auth'
+  mount_devise_token_auth_for 'User', at: 'auth', controllers: { passwords: 'devise/password_resets' }
+
   post '/graphql', to: 'graphql#execute'
 
   get '/products', to: 'products#index'

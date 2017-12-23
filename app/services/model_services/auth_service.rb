@@ -11,6 +11,23 @@ class ModelServices::AuthService < ModelServices::BaseModelService
     end
   end
 
+  def forgot_password
+    user = User.find_by(email: args[:user][:email])
+
+    if user.present?
+      user.send_reset_password_instructions
+      RecursiveOpenStruct.new(success: true)
+    else
+      RecursiveOpenStruct.new(success: false, errors: ['No Email Found'])
+    end
+  end
+
+  def reset_password
+    ctx[:pundit].authorize current_user, :update?
+    current_user.update(args[:user].to_h)
+    current_user
+  end
+
   def update
     ctx[:pundit].authorize current_user, :update?
     current_user.update(args[:user].to_h)
